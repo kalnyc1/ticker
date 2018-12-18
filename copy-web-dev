@@ -1,0 +1,20 @@
+#!/bin/bash
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPTDIRNAME=${PWD##*/}
+echo "..::  Copying from: Source $SCRIPTPATH -> Destination /var/www/$SCRIPTDIRNAME ::.."
+#systemctl stop httpd
+echo "Stopped server..."
+rm -fr /var/www/$SCRIPTDIRNAME
+rm -fr $SCRIPTPATH/var/cache/dev/*
+cp -r $SCRIPTPATH /var/www/.
+echo "Copied..."
+chown -R apache:apache /var/www/$SCRIPTDIRNAME
+echo "Set permissions..."
+cd /var/www/$SCRIPTDIRNAME
+bin/console cache:clear
+bin/console cache:warmup
+rm -f /var/www/$SCRIPTDIRNAME/copy-web-dev
+rm -f /var/www/$SCRIPTDIRNAME/*.tar.gz
+#chcon -R -t httpd_sys_script_rw_t var
+#systemctl start httpd
+
