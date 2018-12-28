@@ -1,0 +1,139 @@
+{# templates/ticker.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}Ticker{% endblock %}
+{% block javascriptSrcs %}
+{{ parent() }}
+{# encore_entry_script_tags('ticker') #}
+{% endblock %}
+{% block body %}
+<nav class="navbar fixed-top navbar-light bg-light shadow-sm">
+    <div class="d-flex align-items-center">
+        <span class="navbar-brand">Ticker</span>
+        <input class="form-control form-control-sm mr-sm-2 mt-1" style="border-radius: 18px;" type="search" placeholder="Symbol" aria-label="Symbol" id="edtSymbol">
+        <button class="btn btn-outline-success btn-sm mt-1" type="button" id="btnSearch">Search</button>
+        <span class="mx-2">Shares</span>
+        <input class="form-control form-control-sm mr-sm-2 mt-1" style="border-radius: 18px;width: 100px;" type="text" id="edtShares" />
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row p-2">
+        <div class="col-3 border rounded shadow-sm m-1 p-2">
+            <!-- Ticker Company Data -->
+            <table class="table-striped" style="font-size: 12px;border-collapse: separate; border-spacing: 4px;">
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Company</td>
+                    <td id="companyName" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Exchange</td>
+                    <td id="exchange" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Sector</td>
+                    <td id="sector" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Previous</td>
+                    <td id="previous" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Open</td>
+                    <td id="open" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Last</td>
+                    <td id="last" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">High</td>
+                    <td id="high" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Low</td>
+                    <td id="low" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Close</td>
+                    <td id="close" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Extended Hours</td>
+                    <td id="extended" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">52 Week Range</td>
+                    <td id="52WeekRange" class="w-100"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="text-nowrap font-weight-bold pr-2">Value</td>
+                    <td id="shareValue" class="w-100"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col">
+            <!-- Ticker Chart Data -->
+            <div class="row">
+                <div class="col border rounded shadow-sm m-1 p-2 d-flex align-items-center">
+                    <span class="mr-2">Chart Date </span>
+                    <input class="form-control form-control-sm mr-sm-2 mt-1" style="border-radius: 18px;width: 100px;" type="text" id="edtGraphDate" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col border rounded shadow-sm m-1 p-2">
+                    {#<div class="ct-chart ct-major-seventh">#}
+                    <div id="chartDiv">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+let tc = null;
+
+$(document).ready( function() {
+    let self = $(this);
+    let btnSearch = $('#btnSearch');
+    let edtGraphDate = $('#edtGraphDate');
+
+    tc = new TickerCommands(
+        $('#edtSymbol'),
+        $('#edtShares'),
+        $('#companyName'),
+        $('#exchange'),
+        $('#sector'),
+        $('#previous'),
+        $('#open'),
+        $('#last'),
+        $('#high'),
+        $('#low'),
+        $('#close'),
+        $('#extended'),
+        $('#52WeekRange'),
+        $('#shareValue'),
+        $('#edtGraphDate'),
+        document.getElementById( 'chartDiv' )
+    );
+
+    btnSearch.click( function() {
+        tc.SearchSymbol( $('#edtSymbol').val(), $('#edtShares').val() );
+    } );
+
+    edtGraphDate.datepicker( {
+        showAnim: 'slideDown'
+    } );
+    edtGraphDate.change( function() {
+        tc.SymbolChart( $(this).val() );
+    } );
+});
+</script>
+{% endblock %}

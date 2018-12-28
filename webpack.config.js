@@ -50,6 +50,24 @@ Encore
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
     //.addEntry('admin', './assets/js/admin.js')
+
+    //.addEntry('ticker', './assets/js/ticker.js')
+
+    // Add jquery-ui alias
+    .addAliases( {
+        'jquery-ui': 'jquery-ui-dist/jquery-ui'
+    } )
 ;
 
 module.exports = Encore.getWebpackConfig();
+
+/*
+// Get the webpack config from the Encore class
+const config = Encore.getWebpackConfig();
+
+// Resolve jquery-ui-dist
+config.resolve.alias = {
+    'jquery-ui$': 'jquery-ui-dist/jquery-ui'
+};
+module.exports = config;
+*/

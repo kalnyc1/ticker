@@ -7,13 +7,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TestController extends AbstractController
+class TickerController extends AbstractController
 {
     /**
-     * @Route("/ticker")
+     * @Route("/ticker/")
      */
     public function ticker()
     {
-
+        return $this->render('ticker.html.twig', [
+        ]);
     }
 }
