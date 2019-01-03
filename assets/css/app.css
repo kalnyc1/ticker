@@ -1,7 +1,7 @@
 /* Import bootstrap. The ~ allows you to reference things in node_modules */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-@import '~chartist/dist/chartist.css';
+/* @import '~chartist/dist/chartist.css'; */
 
 @import '~jquery-ui-dist/jquery-ui.css';
 

@@ -176,25 +176,28 @@ export default class TickerCommands
 
         dateChart = dateChart.substr( 6 ) + dateChart.substr( 0, 2 ) + dateChart.substr( 3, 2 );
 
-        let ep = 'https://api.iextrading.com/1.0/stock/' + this.edtSymbol.val() +
-            '/chart/date/' + dateChart + '?chartInterval=1';
+        let ep = '/tickerChart/';
+        let reqData = {
+            'symbol': this.edtSymbol.val(),
+            'date': dateChart
+        };
 
         let a = $.ajax({
             url: ep,
-            method: 'GET',
-            crossDomain: true,
-            dataType: "jsonp",
-            //contentType: "application/json; charset=utf-8",
+            method: 'POST',
+            crossDomain: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
             accepts: "application/json",
-            //data: JSON.stringify({}),
+            data: JSON.stringify( reqData ),
             timeout: 0
         })
         .done( function ( data, textStatus, xhr ) {
             if ( textStatus === "success" ) {
                 console.log( data );
 
-                if ( data.length > 0 ) {
-                    self.DrawChart( data );
+                if ( data.chartData.length > 0 ) {
+                    self.DrawChart( data.chartData );
                 }
             }
         })
@@ -211,45 +214,47 @@ export default class TickerCommands
     SearchSymbol( symbol, shares )
     {
         let self = this;
-        let ep = 'https://api.iextrading.com/1.0/stock/' + symbol +
-            '/batch?types=quote,chart&range=1d&chartInterval=1';
+        let ep = '/tickerData/';
+        let reqData = {
+            'symbol': symbol
+        };
 
         let a = $.ajax({
             url: ep,
-            method: 'GET',
-            crossDomain: true,
-            dataType: "jsonp",
-            //contentType: "application/json; charset=utf-8",
+            method: 'POST',
+            crossDomain: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
             accepts: "application/json",
-            //data: JSON.stringify({}),
+            data: JSON.stringify( reqData ),
             timeout: 0
         })
         .done( function ( data, textStatus, xhr ) {
             if ( textStatus === "success" ) {
                 console.log( data );
 
-                self.txtCompanyName.empty().html( data.quote.companyName );
-                self.txtExchange.empty().html( data.quote.primaryExchange );
-                self.txtSector.empty().html( data.quote.sector );
-                self.txtPrevious.empty().html( '$' + data.quote.previousClose.toFixed(2) );
-                self.txtOpen.empty().html( '$' + data.quote.open.toFixed(2) + ' @ ' +
-                    self.UnixTimeToLocalString( data.quote.openTime ) );
-                self.txtLast.empty().html( '$' + data.quote.latestPrice.toFixed(2) +
-                    ( ( data.quote.change > 0 ) ? ' (+' : ' (' ) + data.quote.change + ')' +
-                    ' @ ' + self.UnixTimeToLocalString( data.quote.latestUpdate ) );
-                self.txtHigh.empty().html( '$' + data.quote.high.toFixed(2) );
-                self.txtLow.empty().html( '$' + data.quote.low.toFixed(2) );
-                self.txtClose.empty().html( '$' + data.quote.close.toFixed(2) + ' @ ' +
-                    self.UnixTimeToLocalString( data.quote.closeTime ) );
-                self.txtExtended.empty().html( '$' + data.quote.extendedPrice.toFixed(2) + ' @ ' +
-                    self.UnixTimeToLocalString( data.quote.extendedPriceTime ) );
-                self.txtExtended.empty().html( '$' + data.quote.week52Low.toFixed(2) + ' - $' +
-                    data.quote.week52High.toFixed(2) );
-                self.txtShareValue.empty().html( '$' + ( shares * data.quote.latestPrice ) );
+                self.txtCompanyName.empty().html( data.companyName );
+                self.txtExchange.empty().html( data.primaryExchange );
+                self.txtSector.empty().html( data.sector );
+                self.txtPrevious.empty().html( '$' + data.previousClose.toFixed(2) );
+                self.txtOpen.empty().html( '$' + data.open.toFixed(2) + ' @ ' +
+                    self.UnixTimeToLocalString( data.openTime ) );
+                self.txtLast.empty().html( '$' + data.latestPrice.toFixed(2) +
+                    ( ( data.change > 0 ) ? ' (+' : ' (' ) + data.change + ')' +
+                    ' @ ' + self.UnixTimeToLocalString( data.latestUpdate ) );
+                self.txtHigh.empty().html( '$' + data.high.toFixed(2) );
+                self.txtLow.empty().html( '$' + data.low.toFixed(2) );
+                self.txtClose.empty().html( '$' + data.close.toFixed(2) + ' @ ' +
+                    self.UnixTimeToLocalString( data.closeTime ) );
+                self.txtExtended.empty().html( '$' + data.extendedPrice.toFixed(2) + ' @ ' +
+                    self.UnixTimeToLocalString( data.extendedPriceTime ) );
+                self.txt52WeekRange.empty().html( '$' + data.week52Low.toFixed(2) + ' - $' +
+                    data.week52High.toFixed(2) );
+                self.txtShareValue.empty().html( '$' + ( shares * data.latestPrice ).toFixed(2) );
 
                 if ( data.chart.length > 0 ) {
                     self.edtGraphDate.val('');
-                    self.DrawChart( data.chart, data.quote.previousClose );
+                    self.DrawChart( data.chart, data.previousClose );
                 }
             }
         })
