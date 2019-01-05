@@ -15,6 +15,7 @@ bin/console cache:clear
 bin/console cache:warmup
 rm -f /var/www/$SCRIPTDIRNAME/copy-web-dev
 rm -f /var/www/$SCRIPTDIRNAME/*.tar.gz
+rm -fr /var/www/$SCRIPTDIRNAME/tests
 #chcon -R -t httpd_sys_script_rw_t var
 #systemctl start httpd
 

@@ -192,12 +192,12 @@ export default class TickerCommands
             data: JSON.stringify( reqData ),
             timeout: 0
         })
-        .done( function ( data, textStatus, xhr ) {
+        .done( function ( respData, textStatus, xhr ) {
             if ( textStatus === "success" ) {
-                console.log( data );
+                console.log( respData );
 
-                if ( data.chartData.length > 0 ) {
-                    self.DrawChart( data.chartData );
+                if ( respData.chartData.length > 0 ) {
+                    self.DrawChart( respData.chartData );
                 }
             }
         })
@@ -229,32 +229,32 @@ export default class TickerCommands
             data: JSON.stringify( reqData ),
             timeout: 0
         })
-        .done( function ( data, textStatus, xhr ) {
+        .done( function ( respData, textStatus, xhr ) {
             if ( textStatus === "success" ) {
-                console.log( data );
+                console.log( respData );
 
-                self.txtCompanyName.empty().html( data.companyName );
-                self.txtExchange.empty().html( data.primaryExchange );
-                self.txtSector.empty().html( data.sector );
-                self.txtPrevious.empty().html( '$' + data.previousClose.toFixed(2) );
-                self.txtOpen.empty().html( '$' + data.open.toFixed(2) + ' @ ' +
-                    self.UnixTimeToLocalString( data.openTime ) );
-                self.txtLast.empty().html( '$' + data.latestPrice.toFixed(2) +
-                    ( ( data.change > 0 ) ? ' (+' : ' (' ) + data.change + ')' +
-                    ' @ ' + self.UnixTimeToLocalString( data.latestUpdate ) );
-                self.txtHigh.empty().html( '$' + data.high.toFixed(2) );
-                self.txtLow.empty().html( '$' + data.low.toFixed(2) );
-                self.txtClose.empty().html( '$' + data.close.toFixed(2) + ' @ ' +
-                    self.UnixTimeToLocalString( data.closeTime ) );
-                self.txtExtended.empty().html( '$' + data.extendedPrice.toFixed(2) + ' @ ' +
-                    self.UnixTimeToLocalString( data.extendedPriceTime ) );
-                self.txt52WeekRange.empty().html( '$' + data.week52Low.toFixed(2) + ' - $' +
-                    data.week52High.toFixed(2) );
-                self.txtShareValue.empty().html( '$' + ( shares * data.latestPrice ).toFixed(2) );
+                self.txtCompanyName.empty().html( respData.data.companyName );
+                self.txtExchange.empty().html( respData.data.primaryExchange );
+                self.txtSector.empty().html( respData.data.sector );
+                self.txtPrevious.empty().html( '$' + respData.data.previousClose.toFixed(2) );
+                self.txtOpen.empty().html( '$' + respData.data.open.toFixed(2) + ' @ ' +
+                    self.UnixTimeToLocalString( respData.data.openTime ) );
+                self.txtLast.empty().html( '$' + respData.data.latestPrice.toFixed(2) +
+                    ( ( respData.data.change > 0 ) ? ' (+' : ' (' ) + respData.data.change + ')' +
+                    ' @ ' + self.UnixTimeToLocalString( respData.data.latestUpdate ) );
+                self.txtHigh.empty().html( '$' + respData.data.high.toFixed(2) );
+                self.txtLow.empty().html( '$' + respData.data.low.toFixed(2) );
+                self.txtClose.empty().html( '$' + respData.data.close.toFixed(2) + ' @ ' +
+                    self.UnixTimeToLocalString( respData.data.closeTime ) );
+                self.txtExtended.empty().html( '$' + respData.data.extendedPrice.toFixed(2) + ' @ ' +
+                    self.UnixTimeToLocalString( respData.data.extendedPriceTime ) );
+                self.txt52WeekRange.empty().html( '$' + respData.data.week52Low.toFixed(2) +
+                    ' - $' + respData.data.week52High.toFixed(2) );
+                self.txtShareValue.empty().html( '$' + ( shares * respData.data.latestPrice ).toFixed(2) );
 
-                if ( data.chart.length > 0 ) {
+                if ( respData.chart.length > 0 ) {
                     self.edtGraphDate.val('');
-                    self.DrawChart( data.chart, data.previousClose );
+                    self.DrawChart( respData.chart, respData.data.previousClose );
                 }
             }
         })

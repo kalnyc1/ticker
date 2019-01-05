@@ -1,4 +1,5 @@
 {
+    "name": "ticker",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -18,6 +19,7 @@
         "symfony/orm-pack": "*",
         "symfony/process": "4.2.*",
         "symfony/security-bundle": "4.2.*",
+        "symfony/serializer": "4.2.*",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.1",
         "symfony/translation": "4.2.*",
@@ -58,18 +60,6 @@
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php56": "*"
     },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
     "conflict": {
         "symfony/symfony": "*"
     },
@@ -78,5 +68,10 @@
             "allow-contrib": false,
             "require": "4.2.*"
         }
-    }
+    },
+    "authors": [
+        {
+            "name": "Kal Salim"
+        }
+    ]
 }
