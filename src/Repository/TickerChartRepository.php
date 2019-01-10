@@ -4,11 +4,15 @@ declare(strict_types = 1);
 namespace App\Repository;
 
 use App\Entity\TickerChart;
-use App\Serialization\ChartObjectNormalizer;
-use App\Serialization\ChartArrayDenormalizer;
+use App\Serialization\{
+    ChartObjectNormalizer,
+    ChartArrayDenormalizer
+};
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\{
+    Serializer,
+    Encoder\JsonEncoder
+};
 use GuzzleHttp;
 
 class TickerChartRepository

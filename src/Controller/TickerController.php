@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Repository\TickerChartRepository;
 use App\Repository\TickerDataRepository;
 use Exception;
+use Throwable;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -77,11 +78,11 @@ class TickerController extends AbstractController
                     'chart' => $tickerCharts
                 ], 200 );
         }
-        catch ( Exception $ex ) {
+        catch ( Throwable $e ) {
             // Return JSON response
             return $this->json( [
-                'error' => $ex->getMessage()
-            ], (int)$ex->getCode() ?: 500 );
+                'error' => $e->getMessage()
+            ], (int)$e->getCode() ?: 500 );
         }
     }
 
@@ -100,7 +101,8 @@ class TickerController extends AbstractController
         $reqData = json_decode( $request->getContent(), true );
 
         // Validate keys
-        if ( ! array_key_exists( 'symbol', $reqData ) ) {
+        if ( ! array_key_exists( 'symbol', $reqData ) ||
+            ! array_key_exists( 'date', $reqData ) ) {
             throw new Exception( "Invalid request.", 400 );
         }
 
@@ -150,11 +152,11 @@ class TickerController extends AbstractController
                 'chartData' => $chartData
             ], 200 );
         }
-        catch ( Exception $ex ) {
+        catch ( Throwable $e ) {
             // Return JSON response
             return $this->json( [
-                'error' => $ex->getMessage()
-            ], (int)$ex->getCode() ?: 500 );
+                'error' => $e->getMessage()
+            ], (int)$e->getCode() ?: 500 );
         }
     }
 }
