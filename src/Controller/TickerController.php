@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace App\Controller;
 
-use App\Repository\TickerChartRepository;
-use App\Repository\TickerDataRepository;
+use App\Repository\{
+    TickerChartRepository,
+    TickerDataRepository
+};
 use Exception;
 use Throwable;
 use GuzzleHttp\Client;
@@ -15,9 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TickerController extends AbstractController
 {
-
     /**
-     *
      * @Route( "/ticker/", schemes={"http"} )
      */
     public function ticker()
@@ -26,7 +26,6 @@ class TickerController extends AbstractController
     }
 
     /**
-     *
      * @Route( "/tickerData/", methods={ "POST" } )
      *
      * @param Request $request
@@ -87,7 +86,6 @@ class TickerController extends AbstractController
     }
 
     /**
-     *
      * @Route( "/tickerChart/", methods={ "POST" } )
      *
      * @param Request $request

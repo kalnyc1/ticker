@@ -15,7 +15,6 @@ class ChartObjectNormalizer extends ObjectNormalizer
     {
         
         if ( !array_key_exists( 'close', $data ) ) {
-            //return null;
             $data['close'] = null;
         }
 

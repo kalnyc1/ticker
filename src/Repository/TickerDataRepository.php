@@ -49,12 +49,11 @@ class TickerDataRepository
         $responseBody = $clientResp->getBody()->getContents();
         //$responseData = json_decode( (string)$responseBody, true );
         
-        // We could easily use json_decode to do this, but
+        // We could use json_decode to do this, but
         // lets have some fun and use deserialization.
         //$responseData = json_decode( (string)$responseBody, true );
         $encoder = [new JsonEncoder()];
         $normalizer = [new ObjectNormalizer()];
-        
         $serializer = new Serializer( $normalizer, $encoder );
         
         return $serializer->deserialize( $responseBody, TickerData::class, 'json' );
